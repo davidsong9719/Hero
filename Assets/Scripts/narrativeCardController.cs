@@ -27,7 +27,6 @@ public class narrativeCardController : MonoBehaviour
     private List<RectTransform> cardChoiceTransforms = new List<RectTransform>();
     private RectTransform topBottomDivider;
     //===
-
     public static narrativeCardController getInstance()
     {
         return instance;
@@ -205,12 +204,12 @@ public class narrativeCardController : MonoBehaviour
         cardButtonComponent.setButtonFunction(choiceInfo.buttonFunction);
     }
 
-    public void buttonInteracted(buttonFunction endFunction)
+    public void buttonInteracted(exitFunction endFunction)
     {
         switch (endFunction)
         {
-            case buttonFunction.none:
-            case buttonFunction.store:
+            case exitFunction.none:
+            case exitFunction.store:
                 stopCardAnimation();
                 currentAnimation = StartCoroutine(storeCardAnimation(1f));
                 break;
@@ -246,6 +245,7 @@ public class narrativeCardController : MonoBehaviour
 
         narrativeInkKnots.getInstance().storeCard();
         mapManager.enableMapInteraction();
+        Destroy(currentCard.gameObject);
     }
 
     IEnumerator drawCardAnimation(float duration, Transform cardSource)

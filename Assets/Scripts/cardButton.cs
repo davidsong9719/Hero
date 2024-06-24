@@ -7,19 +7,18 @@ using UnityEngine.UI;
 
 public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public enum buttonFunction
+    public enum exitFunction
     {
         none,
         nextCard,
         store,
-        enterCombat,
     }
 
     //attack to choice text gameObject;
     private Image buttonImage;
 
     [SerializeField] Sprite  nextCardSprite, storeSprite, enterCombatSprite;
-    private buttonFunction currentButtonFunction;
+    private exitFunction currentButtonFunction;
 
     private void Awake()
     {
@@ -47,20 +46,16 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         narrativeCardController.getInstance().buttonInteracted(currentButtonFunction);
     }
 
-    public void setButtonFunction(buttonFunction newButtonFunction)
+    public void setButtonFunction(exitFunction newButtonFunction)
     {
         switch(newButtonFunction)
         {
-            case buttonFunction.none:
-            case buttonFunction.store:
+            case exitFunction.none:
+            case exitFunction.store:
                 buttonImage.sprite = storeSprite;
                 break;
 
-            case buttonFunction.enterCombat:
-                buttonImage.sprite = enterCombatSprite;
-                break;
-
-            case buttonFunction.nextCard:
+            case exitFunction.nextCard:
                 buttonImage.sprite = nextCardSprite;
                 break;
 

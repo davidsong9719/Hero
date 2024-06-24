@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static cardButton;
-using static UnityEditor.FilePathAttribute;
+using static playerManager;
 
 public class narrativeInkKnots : MonoBehaviour
 {
@@ -31,9 +31,9 @@ public class narrativeInkKnots : MonoBehaviour
         public string title;
         public string text;
         public List<Choice> choices;
-        public cardButton.buttonFunction buttonFunction;
+        public exitFunction buttonFunction;
 
-        public textInfo(string textString, List<Choice> choiceList, string titleText, cardButton.buttonFunction cardbuttonFunction)
+        public textInfo(string textString, List<Choice> choiceList, string titleText, exitFunction cardbuttonFunction)
         {
             title = titleText;
             text = textString;
@@ -60,9 +60,22 @@ public class narrativeInkKnots : MonoBehaviour
         }
         cardText = new Story(cardTextAsset.text);
 
+        linkExternalFunctions();
         checkForUnincludedKnots();
 
         parseKnots();
+    }
+
+    private void Start()
+    {
+        
+    }
+
+    private void linkExternalFunctions()
+    {
+        cardText.BindExternalFunction("affectHealth", (int amount) => playerManager.getInstance().influenceHealth(amount));
+        cardText.BindExternalFunction("gainItem", (string itemName) => playerManager.getInstance().gainItem(itemName));
+        cardText.BindExternalFunction("loseCardChoice", (int amount) => playerManager.getInstance().loseCardChoice(amount));
     }
 
     private void parseKnots()
@@ -117,8 +130,7 @@ public class narrativeInkKnots : MonoBehaviour
 
     private void sortKnotToLocation(string knot, string locations)
     {
-        locations = locations.Replace(" ", "");
-        string[] splitLocations = locations.Split(",");
+        string[] splitLocations = locations.Replace(" ", "").Split(",");
 
         allCards.Add(knot);
 
@@ -175,18 +187,18 @@ public class narrativeInkKnots : MonoBehaviour
 
         parseTags(cardText.currentTags);
 
-        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], getCurrentEndFunction());
+        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], getCurrentExitFunction());
         
     }
 
-    private buttonFunction getCurrentEndFunction()
+    private exitFunction getCurrentExitFunction()
     {
         Dictionary<string, string> currentTags = parseTags(cardText.currentTags);
 
-        if (!currentTags.ContainsKey("endFunction")) return buttonFunction.none;
+        if (!currentTags.ContainsKey("exitFunction")) return exitFunction.none;
 
-        buttonFunction function;
-        bool functionGetSuccessful = Enum.TryParse(currentTags["endFunction"], out function);
+        exitFunction function;
+        bool functionGetSuccessful = Enum.TryParse(currentTags["exitFunction"], out function);
 
         if (!functionGetSuccessful)
         {
@@ -194,7 +206,6 @@ public class narrativeInkKnots : MonoBehaviour
         }
         return function;
     }
-
 
     private List<string> getAvailableCards(deckTags deckTag)
     {
@@ -237,7 +248,7 @@ public class narrativeInkKnots : MonoBehaviour
 
         string choiceText = cardText.ContinueMaximally();
 
-        return new textInfo(choiceText, null, null, getCurrentEndFunction());
+        return new textInfo(choiceText, null, null, getCurrentExitFunction());
     }
 
     public void storeCard()
@@ -249,7 +260,5 @@ public class narrativeInkKnots : MonoBehaviour
     {
         return getAvailableCards(deckTag).Count;
     }
-
-
     
 }

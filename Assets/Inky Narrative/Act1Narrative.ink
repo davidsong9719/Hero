@@ -1,3 +1,4 @@
+INCLUDE globalNarrativeToolkit.ink
 
 ===INDEX===
 //road
@@ -55,6 +56,7 @@ Downpour
 #location:road
 …Oho? What’s this! A traveling merchant! A whimsical little guy as well! A short man with a massive beard and the aura of a jester hops up to you. He is offering a sample potion! For free! He grumbles when he realized you are too poor for to buy a full potion. The silly guy tries to sneak off with the sample but it’s too late, it’s already been offered. He slinks away sadly.
 Gain [Jester's Sample]: /+1 to chosen stat for next battle, applies to one player.
+~gainItem("Jester's Sample")
 ->END
 
 ===GoodDeed===
@@ -64,7 +66,8 @@ Gain [Jester's Sample]: /+1 to chosen stat for next battle, applies to one playe
 …You continue on your travels, zoning out until a lady stumbles in front of you. She hurries away, but you see that she’s dropped her coin pouch. 
 +[Take it] 
 You use it to buy some food. 
-/+2 health 
+\+2 health 
+~affectHealth(1)
 ->END
 
 +[Chase after her] 
@@ -87,6 +90,7 @@ You take a step forward and fall right through the ground.
 +[A trap?]
 Lucky for you, you just happened to fall into the fountain of youth. The riches you will receive for discovering this. You wonder what you will spend it on.
 Replenish all health
+~affectHealth(99999)
 ->END
 
 ===Pickpocketed===
@@ -96,6 +100,7 @@ Replenish all health
 You think you were pickpocketed last night, the nerve. Someone will pay for this. But for now, you must find out what was stolen.   
 +[Check your bag] You shuffle through your bag, throwing everything on to the ground. All of your possessions seems to be accounted for? Unbeknownst to you, one of your relics rolled away while you were busy making a mess.  
 Choose one card to permanently discard
+~loseCardChoice(1)  
 ->END
 
 +[Try to remember] You try your best to recall everything that led up to the pickpocketing, but all you end up thinking about is how stressful life has been recently.
@@ -108,6 +113,7 @@ Depressing... But you manage remember that you weren't actually pickpocketed.
 #location:any
 What a nice day today. You feel strangely happy. You’re excited by what’s to come.
 \+2 health
+~affectHealth(2)
 ->END
 
 ===Trip===
@@ -117,6 +123,7 @@ What a nice day today. You feel strangely happy. You’re excited by what’s to
 You trip and fall.
 \+embarrassment 
 -1 health
+~affectHealth(-1)
 ->END
 
 ===Overslept===
@@ -140,6 +147,7 @@ Sunlight pours into your eyes as you awaken. You’ve overslept! It’s noon alr
 #location:market
 The marketplace is becoming hectic yet again. Someone bumps into you. You turn around and they are lost amongst the crowd. 
 Choose one card to permanently discard
+~loseCardChoice(1)
 ->END
 
 ===MarketSadness===
@@ -157,6 +165,7 @@ You find yourself browsing in the marketplace for things you cannot afford. What
 You continue on your walk when suddenly you remember. There is a festival being held at the marketplace today. You know what that means— free food! Not really, most is paid, but you can steal the free samples! 
 +[You head to the buzzing festival] Oh boy do you have a feast! You try drinks from all over, snacks from across the world! You sing and dance with your friends all throughout the night.
 \+5 health
+~affectHealth(5)
 ->END
 
 ===WorstMoment===
@@ -166,6 +175,7 @@ You continue on your walk when suddenly you remember. There is a festival being 
 Walking up the steps of an old pathway, you trip and roll all the way down to the bottom of the hill. A group of children laughs as you try to brush it off... 
 \+shattered confidence 
 -1 health
+~affectHealth(-1)
 ->END
 
 ===Cows===
@@ -183,6 +193,7 @@ You pass by a small hut with clothes hanging outside to dry. There's a few cows 
 A nearby vendor yells for your attention and shows you what seems to be a free snack sample. You take one step, and suddenly, you're mobbed by merchants in every direction! In-between informing all of them that you're completely broke, you manage to sneak a few samples in your mouth. 
 \+1 health
 Best to leave before a thief comes along...
+~affectHealth(1)
 ->END
 
 ===Raccoon===
@@ -204,6 +215,7 @@ You check for lost or broken items and continue about your day…
 #location:road, forest
 You know what? You’re too tired for this. You can go back here tomorrow. You want sleep. You head back to camp and snooze.
 \+1 health
+~affectHealth(1)
 ->END
 
 ===AbandonedVillage===
@@ -220,6 +232,7 @@ It pours outside, you hurry to find shelter from the rain. You head to the neare
 #location:any
 You pause and admire the stars. It's nice to take a break every once in a while.
 \+1 health
+~affectHealth(1)
 ->END
 
 ===Scared===
@@ -249,6 +262,7 @@ You see the bustling marketplace in the distance. Your camp supplies are running
 +[Steal the food] Bad move, the storeowner… melts? The marketplace is immediately thrown into chaos the once human rebuilds into a cursed creature. You’ve angered it.
 [fight an enemy] +5 health upon victory
 Gain [food]: +1 health for next battle.
+~gainItem("Food")
 ->END
 
 +[Leave] The storeowner’s face falls. Almost literally, but it seems you must remain hungry another day.
@@ -265,6 +279,7 @@ You step under an overgrown tree for a quick break. As your eyes start to close,
 [fight an enemy] +2 attack for the enemy
 From its corpse you spot a little branch sticking out. Maybe this was what was making it stronger.
 Gain [Twisted Branch]: +2 attack and -1 health for the next two encounters.
+~gainItem("Twisted Branch")
 ->END
 
 +[Leave it alone] Best not to be a rude guest.
@@ -301,7 +316,8 @@ You are stopped in your path when you hear screaming in the distance. Out of cur
 +[Help] You ready your weapon. One of the creatures turn to face you and laugh.
 [fight an enemy]
 The remaining monsters run away in fear. The villagers thank you, and give you the little they have left. 
-Gain [old charm]: -1 to all enemy stats for one encounter.
+Gain [Old Charm]: -1 to all enemy stats for one encounter.
+~gainItem("Old Charm")
 ->END
 +[Leave] Not your problem. The villagers cry in despair.
 ->END
@@ -320,6 +336,7 @@ It starts to rain as you walk. Then it starts to pour. In front of you lays a sk
 #location:any
 You startle awake when you feel something tap you. You’ve dozed off mid battle, yet your opponent has waited patiently while you slept. Time to finish this.
 \+1 health 
+~affectHealth(1)
 [fight an enemy]
 You, proud and victorious, walk off prepared to face anything...
 \+ego
@@ -331,6 +348,7 @@ You, proud and victorious, walk off prepared to face anything...
 #location:market
 "Watch Out!" you hear somebody yell. You turn around as fast as you can before a rock hits you square in the nose. The villager, who you assume was the one that gave you the warning, points towards an furious monster. 
  -1 health
+ ~affectHealth(-1)
 [fight an Enemy]
 ->END
 
@@ -349,6 +367,7 @@ The once welcoming town has become hostile. They don’t like when outsiders med
 #location:road
 You continue to trudge on. It’s getting late. But there! In the distance! You spot a camp! Someone else’s, but you don’t see anyone there. The campers must’ve left for a bit, but they’ll probably be back soon. So what do you do? Loot them, obviously.
 \+[Thief’s Dagger]: once every encounter, sneak attack and negate defense.
+~gainItem("Thief's Dagger")
 ->END
 
 ===AncientWeapon===
@@ -357,8 +376,10 @@ You continue to trudge on. It’s getting late. But there! In the distance! You 
 #location:forest
 You see an ancient weapon. It seems heavily guarded. You worry about traps.  
 
-+[Take it] Gain \[Sharpened arrow\]: +1 attack.
++[Take it] Gain \[Sharpened Arrow\]: +1 attack.
 \-2 health for active player
+~affectHealth(1)
+~gainItem("Sharpened Arrow")
 ->END
 +[Leave it] It probably wasn't worth it anyways
 ->END
@@ -369,6 +390,7 @@ You see an ancient weapon. It seems heavily guarded. You worry about traps.
 #location:forest
 You find a cave tight enough to give the most courageous soul crippling claustrophobia. You, not out of bravery but rather out of unintelligence, decide to squeeze in because you see something shiny. You are lucky that your party members are there to pull you out when you get stuck. 
 \+[Shiny Gem]: Heal one player by 3 health once every battle.
+~gainItem("Shiny Gem")
 ->END
 
 ===Bracelet===
@@ -377,6 +399,7 @@ You find a cave tight enough to give the most courageous soul crippling claustro
 #location:forest, road
 Pebbles crunch beneath your feet as you trudge through the ruins. There is a hand sticking out the center of a destroyed building. It holds a bracelet with protective runes etched on its beads. How ironic.
 Gain [Bracelet of Protection?]: -1 health, +1 defense every round
+~gainItem("Bracelet of Protection")
 ->END
 
 ===Sorcerer===
@@ -386,6 +409,7 @@ Gain [Bracelet of Protection?]: -1 health, +1 defense every round
 You get suddenly snatched into a tent while passing through a small town!  An old, towering sorcerer leans over you and grabs your hands. ""Have my orb,"" she says, after inspecting your palms, "it'll be more of use for you than me."   
 
 +[Accept] Gain \[Orb of Sacrifices\]: At any point, players can choose to transfer 2 points of health into the orb. On it's use, the Orb deals +1 damage for each transfer. Exploding into fine shards, it cannot be used again.
+~gainItem("Orb of Sacrifices")
 ->END
 
 +[Refuse] She whispers into your ear, "you won't be alive long enough to use it anyways," before kicking you out.
@@ -399,8 +423,11 @@ The sun is setting. There is a barn nearby and not a human in sight, A cow could
 
 +[Let him bite you] The poor thing looks so starved. You somehow pity him.
 \-self preservation skills -1 health for one player
+~affectHealth(-1)
+~isVampiric = true
 ->END
 +[Kill him] You just happen to have a wooden stake for this exact moment.
+~isVampiric = false
 ->END
 
 ===DrunkenDispute0===
@@ -411,9 +438,11 @@ Your journey has been disrupted. Annoying bickering pierces your ears. What a pa
 
 +[Side with the drunk man] Despite his tantrum, he barely touched his drink. Normal stores would offer a refund.
 Plus, that bartender seems pretentious. You don't like him.
+~sidedWithBartender = false
 ->END
 
 +[Side with the bartender] What an annoying customer, this is practically harassment. He should be kicked out, it is not difficult to do as all his punches miss.
+~sidedWithBartender = true
 ->END
 
 ===HiddenMessage0===
@@ -422,6 +451,7 @@ Plus, that bartender seems pretentious. You don't like him.
 #location:road, forest
 You decide to visit the riverbank beside your camp. You find that it has become your safe haven whenever you need a moment of calm. Birds sing above you. Waves ripple below you. Dipping your feet into the cool water, you feel something lightly tap you from below the current. Looking down, you notice a small bottle. Littering? Someone wasn't taught manners. You pop open the cork and look inside. A tiny scroll sits in the bottom. Unraveling it reveals a hastily scribbled note. Whoever wrote this was in a rush. Or has bad handwriting. It reads  "... ends ... the ... end". How cryptic. The shadow in the corner of your eye has disappeared.
 Gain [message in a bottle] - You do not know what this means, yet.
+~gainItem("Message in a Bottle")
 ->END
 
 ===TheFork0===
@@ -433,9 +463,11 @@ However, you do spot that the forest on the right is oddly shrouded in darkness,
 
 +[Light Path]
 Your compass spins wildly as you step inside the glowing forest. As you get deeper in, the trees around you become brighter and brighter until you can barely keep your eyes open. Suddenly, everything goes dark. You feel around for a few minutes, making sure your life isn't in danger, before sprinting down the path until you emerge out into the open plains again.
+~forkChoice = "light"
     ->END
 +[Dark Path]
 Nothing eventful happens despite the ominous appearance of the forest. However, you do get the sense here and there that something is following you.
+~forkChoice = "dark"
     ->END
     
 ===TheStranger0===
@@ -462,6 +494,7 @@ After a long, long time of waiting for a sound from the bottom, you spot the sam
 +[Catch!]
 Gain [Magnetic Pebble]: Usable in one encounter, deals 1 damage.
 You skirt around the hole...
+~gainItem("Magnetic Pebble")
 ->END
 
 ===Act1End===

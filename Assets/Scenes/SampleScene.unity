@@ -2682,7 +2682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a19161c98699449b7d6d4a9b16854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardTextAsset: {fileID: 4900000, guid: 15875fe3f092b484eae0792cac651ae9, type: 3}
+  cardTextAsset: {fileID: 4900000, guid: 079a2b3123eb81b4f9a50ba147116909, type: 3}
   allCards: []
   roadCards: []
   marketCards: []
@@ -5573,6 +5573,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1327413885}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1889724065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1889724067}
+  - component: {fileID: 1889724066}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1889724066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889724065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40fb2a9387a25d24394e9d2d119c353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1889724067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889724065}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2479211, y: -0.32301873, z: -0.8471391}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1898318479
 GameObject:
   m_ObjectHideFlags: 0
@@ -6248,3 +6292,4 @@ SceneRoots:
   - {fileID: 890806528}
   - {fileID: 1599126294}
   - {fileID: 1533190256}
+  - {fileID: 1889724067}
