@@ -88,11 +88,6 @@ public class narrativeCardController : MonoBehaviour
         currentAnimation = StartCoroutine(drawCardAnimation(1f, deckTransform));
     }
 
-    private void checkForUnincludedKnots()
-    {
-
-    }
-
     public void layoutFullText(narrativeInkKnots.textInfo textInfo) //layout for card with no choices
     {
         layoutTop();
