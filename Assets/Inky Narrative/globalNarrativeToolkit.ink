@@ -16,5 +16,11 @@ VAR sidedWithBartender = false
 VAR forkChoice = ""
 
 //to immediately go to another card after finishing current one
-//use #exitFunction:nextCard.knotName
-//like so: #exitFunction:nextCard.AncientWeapon
+//use #exitFunction:nextCard>>>knotName
+//like so: #exitFunction:nextCard>>>AncientWeapon
+
+//to start combat
+//use (BREAK)Fight:TopHalfEnemyTag/BottomHalfEnemyTag/attack/defense/speed/health/
+//or (BREAK)Fight:TopHalfEnemyTag/BottomHalfEnemyTag/
+//like so: (BREAK)fight:Random/Random
+//like so: (BREAK)fight:Skeleton/Goblin/10/10/2/5

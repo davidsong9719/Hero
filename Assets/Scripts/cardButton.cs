@@ -12,6 +12,7 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         none,
         nextCard,
         store,
+        enterCombat
     }
 
     //attack to choice text gameObject;
@@ -57,6 +58,10 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             case buttonFunction.nextCard:
                 buttonImage.sprite = nextCardSprite;
+                break;
+
+            case buttonFunction.enterCombat:
+                buttonImage.sprite = enterCombatSprite;
                 break;
 
             default:

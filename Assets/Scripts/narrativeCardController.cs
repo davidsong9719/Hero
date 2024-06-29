@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static cardButton;
+using static narrativeInkKnots;
 
 public class narrativeCardController : MonoBehaviour
 {
@@ -47,10 +48,11 @@ public class narrativeCardController : MonoBehaviour
             instance = this;
         }
     }
-    public void deckInteracted(narrativeInkKnots.deckTags deckTag, Transform deckTransform) //sets card text and starts layout & animation
+    public void deckInteracted(deckTags deckTag, Transform deckTransform) //sets card text and starts layout & animation
     {
         currentDeck = deckTransform;
-        narrativeInkKnots.textInfo textInfo = narrativeInkKnots.getInstance().drawCard(deckTag);
+        textInfo textInfo = narrativeInkKnots.getInstance().drawCard(deckTag);
+
         currentTextInfo = textInfo;
         spawnNewCard();
 
@@ -60,7 +62,7 @@ public class narrativeCardController : MonoBehaviour
         currentAnimation = StartCoroutine(drawCardAnimation(1f, deckTransform));
     }
 
-    private void setCardVisuals(narrativeInkKnots.textInfo textInfo)
+    private void setCardVisuals(textInfo textInfo)
     {
         //set texts
         titleText.text = textInfo.title;
@@ -112,7 +114,7 @@ public class narrativeCardController : MonoBehaviour
     }
 
 
-    public void layoutFullText(narrativeInkKnots.textInfo textInfo) //layout for card with no choices
+    public void layoutFullText(textInfo textInfo) //layout for card with no choices
     {
         layoutTop();
 
@@ -120,7 +122,7 @@ public class narrativeCardController : MonoBehaviour
         cardButtonComponent.setButtonFunction(textInfo.buttonFunction);
     }
 
-    public void layoutChoices(narrativeInkKnots.textInfo textInfo) //layout for card with choices
+    public void layoutChoices(textInfo textInfo) //layout for card with choices
     {
         layoutTop();
 
@@ -134,7 +136,7 @@ public class narrativeCardController : MonoBehaviour
         }
     }
 
-    public void layoutTopBottom(narrativeInkKnots.textInfo textInfo) //layout for after selecting a choice
+    public void layoutTopBottom(textInfo textInfo) //layout for after selecting a choice
     {
         layoutTop();
 

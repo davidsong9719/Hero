@@ -338,7 +338,9 @@ It starts to rain as you walk. Then it starts to pour. In front of you lays a sk
 You startle awake when you feel something tap you. You’ve dozed off mid battle, yet your opponent has waited patiently while you slept. Time to finish this.
 \+1 health 
 ~affectHealth(1)
-+Fight:Random/Random
+    
+(BREAK)fight:Random:Random
+
 You, proud and victorious, walk off prepared to face anything...
 \+ego
 ->END
@@ -502,6 +504,3 @@ You skirt around the hole...
 #title:The End of Act I
 Music blares, crowds roar. You seem to have come across a large event. In front of you sits a massive colosseum, it's a wonder how you missed that. You were probably too busy staring at the $1 million reward posted on the flyer for this tournament. This is your way in, the key. "You're here too!" A tall man towers behind you with a cheery smile. Your eye catches on his glowing necklace. You feel as if you recognize the necklace. And him too, but the necklace is more interesting. The small chick that sits on his shoulder chirps in recognition, it almost escaped your notice. Ah well, they must not be important if you forgot. The problem is that he seems to remember you. "We never exchanged names!” Thank the gods. “I'm Artho!” The bird, who has now moved to the top of his head, chirps in anger of being ignored. “-and this is Pip! It's a pleasure to see you again :)" Despite the registration being full, Artho somehow still manages to weasel you in. The man is kind to you, you probably saved him at one point or something. Fighting all these monsters, everything blurs together. He leads you into the colosseum, showing you around, but the only thing on your mind is the reward still echoing in your head. Don't lose your focus, heroes, you still have ways to go.
 ->END
-
-
-    

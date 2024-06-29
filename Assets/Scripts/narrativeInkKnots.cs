@@ -1,3 +1,4 @@
+using Ink;
 using Ink.Runtime;
 using System;
 using System.Collections;
@@ -26,6 +27,11 @@ public class narrativeInkKnots : MonoBehaviour
         forest,
     }
 
+    public enum breakFunctions
+    {
+        none,
+        fight
+    }
     public struct textInfo
     {
         public string title;
@@ -33,14 +39,16 @@ public class narrativeInkKnots : MonoBehaviour
         public List<Choice> choices;
         public buttonFunction buttonFunction;
         public string nextCard;
+        public breakFunctions breakFunction; 
 
-        public textInfo(string textString, List<Choice> choiceList, string titleText, buttonFunction cardbuttonFunction, string nextKnot)
+        public textInfo(string textString, List<Choice> choiceList, string titleText, buttonFunction cardbuttonFunction, string nextKnot, breakFunctions breakFunctionInfo)
         {
             title = titleText;
             text = textString;
             choices = choiceList;
             buttonFunction = cardbuttonFunction;
             nextCard = nextKnot;
+            breakFunction = breakFunctionInfo;
         }
     }
 
@@ -184,12 +192,7 @@ public class narrativeInkKnots : MonoBehaviour
         currentKnot = getAvailableCards(deckTag)[0];
         cardText.ChoosePathString(currentKnot);
 
-        string knotText = cardText.ContinueMaximally();
-
-        parseTags(cardText.currentTags);
-
-        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
-        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], currentButtonFunction, nextKnot);
+        return continueText();
     }
 
     public textInfo drawCard(string nextCard) //for use with next card
@@ -199,11 +202,65 @@ public class narrativeInkKnots : MonoBehaviour
         //throw warning if nextCard can be accessed regularly by pulling from a deck
         if (allCards.Contains(nextCard)) Debug.LogWarning(nextCard + " can be accessed from both INDEX and the nextCard function, is this intentional?");
 
-        string knotText = cardText.ContinueMaximally();
+        return continueText();
+    }
 
-        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
-        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], currentButtonFunction, nextKnot);
+    private textInfo continueText()
+    {
+        string text = "";
+        breakFunctions breakFunction = breakFunctions.none;
+        buttonFunction currentButtonFunction = buttonFunction.none;
+        string nextKnot = null;
 
+        while (true)
+        {
+            string lineString = "   " + cardText.Continue();
+
+            bool doesBreakFunctionExist = parseBreakFunctions(out breakFunction);
+
+
+            if (doesBreakFunctionExist) break; // break early to not include breakText
+
+            text += lineString;
+            if (!cardText.canContinue) break;
+        }
+
+        if (breakFunction == breakFunctions.fight)
+        {
+            currentButtonFunction = buttonFunction.enterCombat;
+        } else
+        {
+            getCurrentButtonFunction(out nextKnot);
+        }
+        
+        
+        return new textInfo(text, cardText.currentChoices, knotTags[currentKnot]["title"], currentButtonFunction, nextKnot, breakFunction);
+    }
+
+    private bool parseBreakFunctions(out breakFunctions breakFunction)
+    {
+        bool breakFunctionExist = cardText.currentText.Contains("(BREAK)");
+        breakFunction = breakFunctions.none;
+
+        if (!breakFunctionExist) return false;
+
+        string[] functionText = cardText.currentText.Replace("(BREAK)", "").Split(":");
+        bool breakFunctionValid = Enum.TryParse(functionText[0], out breakFunction);
+
+        if (!breakFunctionValid)
+        {
+            print(currentKnot + " Break Invalid");
+            return false;
+        }
+
+        switch(breakFunction)
+        {
+            case breakFunctions.fight:
+                combatManager.getInstance().setNextEnemyInfo(functionText[1]);
+                break;
+        }
+            
+        return true;
     }
 
     private buttonFunction getCurrentButtonFunction(out string nextCard)
@@ -221,9 +278,9 @@ public class narrativeInkKnots : MonoBehaviour
         } else if (currentTags["exitFunction"] == "store")
         {
             function = buttonFunction.store;
-        } else if (currentTags["exitFunction"].Split(".")[0] == "nextCard")
+        } else if (currentTags["exitFunction"].Split(">>>")[0] == "nextCard")
         {
-            nextCard = currentTags["exitFunction"].Split(".")[1];
+            nextCard = currentTags["exitFunction"].Split(">>>")[1];
             function = buttonFunction.nextCard;
         }
 
@@ -269,11 +326,7 @@ public class narrativeInkKnots : MonoBehaviour
     {
         cardText.ChooseChoiceIndex(choice.index);
 
-        string choiceText = cardText.ContinueMaximally();
-
-        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
-
-        return new textInfo(choiceText, null, null, currentButtonFunction, nextKnot);
+        return continueText();
     }
 
     public void storeCard()
