@@ -2586,6 +2586,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680525663}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &737340374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 737340375}
+  m_Layer: 0
+  m_Name: Card Backdropped
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &737340375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737340374}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.258819, z: -0.9659259, w: 0}
+  m_LocalPosition: {x: -0.33, y: 7.4, z: -4.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 890806528}
+  m_LocalEulerAnglesHint: {x: -30, y: 0, z: -180}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2668,6 +2699,7 @@ Transform:
   m_Children:
   - {fileID: 1222393043}
   - {fileID: 275351589}
+  - {fileID: 737340375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &890806529
@@ -2705,8 +2737,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 6530107167301305449, guid: 1730586248dbfb34c9563bf0a9883d94,
     type: 3}
   cardDisplayPosition: {fileID: 275351589}
-  cardStartPosition: {fileID: 0}
   cardStorePosition: {fileID: 1222393043}
+  cardBackdropPosition: {fileID: 737340375}
   storeCurve:
     serializedVersion: 2
     m_Curve:
@@ -2732,6 +2764,30 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   drawCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  backdropCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

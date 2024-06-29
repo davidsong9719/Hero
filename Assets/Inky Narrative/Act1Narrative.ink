@@ -1,4 +1,5 @@
 INCLUDE globalNarrativeToolkit.ink
+->DozedOff
 
 ===INDEX===
 //road
@@ -337,7 +338,7 @@ It starts to rain as you walk. Then it starts to pour. In front of you lays a sk
 You startle awake when you feel something tap you. You’ve dozed off mid battle, yet your opponent has waited patiently while you slept. Time to finish this.
 \+1 health 
 ~affectHealth(1)
-[fight an enemy]
++Fight:Random/Random
 You, proud and victorious, walk off prepared to face anything...
 \+ego
 ->END

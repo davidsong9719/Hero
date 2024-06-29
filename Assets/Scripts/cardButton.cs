@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public enum exitFunction
+    public enum buttonFunction
     {
         none,
         nextCard,
@@ -18,12 +18,12 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image buttonImage;
 
     [SerializeField] Sprite  nextCardSprite, storeSprite, enterCombatSprite;
-    private exitFunction currentButtonFunction;
+    private buttonFunction currentButtonFunction;
 
     private void Awake()
     {
         buttonImage = GetComponent<Image>();
-        buttonImage.alphaHitTestMinimumThreshold = 0f;
+        //buttonImage.alphaHitTestMinimumThreshold = 0f;
     }
 
     private void OnEnable()
@@ -46,16 +46,16 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         narrativeCardController.getInstance().buttonInteracted(currentButtonFunction);
     }
 
-    public void setButtonFunction(exitFunction newButtonFunction)
+    public void setButtonFunction(buttonFunction newButtonFunction)
     {
         switch(newButtonFunction)
         {
-            case exitFunction.none:
-            case exitFunction.store:
+            case buttonFunction.none:
+            case buttonFunction.store:
                 buttonImage.sprite = storeSprite;
                 break;
 
-            case exitFunction.nextCard:
+            case buttonFunction.nextCard:
                 buttonImage.sprite = nextCardSprite;
                 break;
 

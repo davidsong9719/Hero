@@ -11,14 +11,17 @@ public class narrativeCardController : MonoBehaviour
     [SerializeField] float basicTextboxSpacing;
     [SerializeField] GameObject cardPrefab;
     //===
-    [SerializeField] Transform cardDisplayPosition, cardStartPosition, cardStorePosition;
+    [SerializeField] Transform cardDisplayPosition, cardStorePosition, cardBackdropPosition;
     private Coroutine currentAnimation;
-    [SerializeField] AnimationCurve storeCurve, drawCurve;
+    [SerializeField] AnimationCurve storeCurve, drawCurve, backdropCurve;
+    private List<Transform> backdroppedCards = new List<Transform>();
+    private Transform currentDeck;
     //===
     private static narrativeCardController instance;
     //===
     private cardInfo currentCardInfo;
     private Transform currentCard;
+    private narrativeInkKnots.textInfo currentTextInfo;
     private TextMeshProUGUI titleText, topText, bottomText;
     private List<cardChoice> cardChoices = new List<cardChoice>();
     private cardButton cardButtonComponent;
@@ -46,9 +49,19 @@ public class narrativeCardController : MonoBehaviour
     }
     public void deckInteracted(narrativeInkKnots.deckTags deckTag, Transform deckTransform) //sets card text and starts layout & animation
     {
+        currentDeck = deckTransform;
         narrativeInkKnots.textInfo textInfo = narrativeInkKnots.getInstance().drawCard(deckTag);
+        currentTextInfo = textInfo;
         spawnNewCard();
 
+        setCardVisuals(textInfo);
+
+        stopCardAnimation();
+        currentAnimation = StartCoroutine(drawCardAnimation(1f, deckTransform));
+    }
+
+    private void setCardVisuals(narrativeInkKnots.textInfo textInfo)
+    {
         //set texts
         titleText.text = textInfo.title;
         topText.text = textInfo.text;
@@ -62,8 +75,9 @@ public class narrativeCardController : MonoBehaviour
         if (textInfo.choices.Count == 0)
         {
             layoutFullText(textInfo);
-            
-        } else
+
+        }
+        else
         {
             //set choice texts
 
@@ -82,10 +96,21 @@ public class narrativeCardController : MonoBehaviour
 
             layoutChoices(textInfo);
         }
+    }
+
+    private void nextCardInteracted()
+    {
+        narrativeInkKnots.textInfo textInfo = narrativeInkKnots.getInstance().drawCard(currentTextInfo.nextCard);
+        currentTextInfo = textInfo;
+
+        spawnNewCard();
+        
+        setCardVisuals(textInfo);
 
         stopCardAnimation();
-        currentAnimation = StartCoroutine(drawCardAnimation(1f, deckTransform));
+        currentAnimation = StartCoroutine(drawCardAnimation(1f, currentDeck));
     }
+
 
     public void layoutFullText(narrativeInkKnots.textInfo textInfo) //layout for card with no choices
     {
@@ -195,6 +220,8 @@ public class narrativeCardController : MonoBehaviour
         narrativeInkKnots.textInfo choiceInfo = narrativeInkKnots.getInstance().chooseChoice(choice);
         disableAllChoices();
 
+        currentTextInfo = choiceInfo;
+
         bottomText.gameObject.SetActive(true);
         bottomText.text = choiceInfo.text;
         layoutTopBottom(choiceInfo);
@@ -204,14 +231,27 @@ public class narrativeCardController : MonoBehaviour
         cardButtonComponent.setButtonFunction(choiceInfo.buttonFunction);
     }
 
-    public void buttonInteracted(exitFunction endFunction)
+    public void buttonInteracted(buttonFunction endFunction)
     {
         switch (endFunction)
         {
-            case exitFunction.none:
-            case exitFunction.store:
+            case buttonFunction.none:
+            case buttonFunction.store:
                 stopCardAnimation();
                 currentAnimation = StartCoroutine(storeCardAnimation(1f));
+
+                for (int i = 0; i < backdroppedCards.Count; i++)
+                {
+                    StartCoroutine(storeCardAnimation(0.5f, backdroppedCards[i]));
+                }
+                backdroppedCards.Clear();
+                break;
+
+            case buttonFunction.nextCard:
+                stopCardAnimation();
+                StartCoroutine(backdropCardAnimation(0.5f, currentCard));
+                backdroppedCards.Add(currentCard);
+                nextCardInteracted();
                 break;
         }
     }
@@ -226,8 +266,8 @@ public class narrativeCardController : MonoBehaviour
 
     IEnumerator storeCardAnimation(float duration)
     {
-        Vector3 cardStartPosition = currentCard.transform.position;
-        Vector3 cardStartRotation = currentCard.transform.eulerAngles;
+        Vector3 cardStartPosition = currentCard.position;
+        Vector3 cardStartRotation = currentCard.eulerAngles;
         float timeCounter = -Time.deltaTime;
 
 
@@ -236,8 +276,8 @@ public class narrativeCardController : MonoBehaviour
             timeCounter += Time.deltaTime;
             float curveValue = storeCurve.Evaluate(timeCounter / duration);
 
-            currentCard.transform.position = Vector3.Lerp(cardStartPosition, cardStorePosition.position, curveValue);
-            currentCard.transform.eulerAngles = Vector3.Lerp(cardStartRotation, cardStorePosition.eulerAngles, curveValue);
+            currentCard.position = Vector3.Lerp(cardStartPosition, cardStorePosition.position, curveValue);
+            currentCard.eulerAngles = Vector3.Lerp(cardStartRotation, cardStorePosition.eulerAngles, curveValue);
 
             if (timeCounter > duration) break;
             yield return null;
@@ -246,6 +286,30 @@ public class narrativeCardController : MonoBehaviour
         narrativeInkKnots.getInstance().storeCard();
         mapManager.enableMapInteraction();
         Destroy(currentCard.gameObject);
+    }
+
+    IEnumerator storeCardAnimation(float duration, Transform cardTransform)
+    {
+        Vector3 cardStartPosition = cardTransform.position;
+        Vector3 cardStartRotation = cardTransform.eulerAngles;
+        float timeCounter = -Time.deltaTime;
+
+
+        while (true)
+        {
+            timeCounter += Time.deltaTime;
+            float curveValue = storeCurve.Evaluate(timeCounter / duration);
+
+            cardTransform.position = Vector3.Lerp(cardStartPosition, cardStorePosition.position, curveValue);
+            cardTransform.eulerAngles = Vector3.Lerp(cardStartRotation, cardStorePosition.eulerAngles, curveValue);
+
+            if (timeCounter > duration) break;
+            yield return null;
+        }
+
+        narrativeInkKnots.getInstance().storeCard();
+        mapManager.enableMapInteraction();
+        Destroy(cardTransform.gameObject);
     }
 
     IEnumerator drawCardAnimation(float duration, Transform cardSource)
@@ -259,6 +323,25 @@ public class narrativeCardController : MonoBehaviour
 
             currentCard.transform.position = Vector3.Lerp(cardSource.position, cardDisplayPosition.position, curveValue);
             currentCard.transform.eulerAngles = Vector3.Lerp(Vector3.zero, cardDisplayPosition.eulerAngles, curveValue);
+
+            if (timeCounter > duration) break;
+            yield return null;
+        }
+    }
+
+    IEnumerator backdropCardAnimation(float duration, Transform cardTransform) //used if the current card ended with a nextcard exit
+    {
+        Vector3 cardStartPosition = cardTransform.position;
+        Vector3 cardStartRotation = cardTransform.eulerAngles;
+        float timeCounter = -Time.deltaTime;
+
+        while (true)
+        {
+            timeCounter += Time.deltaTime;
+            float curveValue = backdropCurve.Evaluate(timeCounter / duration);
+
+            cardTransform.position = Vector3.Lerp(cardStartPosition, cardBackdropPosition.position, curveValue);
+            cardTransform.eulerAngles = Vector3.Lerp(cardStartRotation, cardBackdropPosition.eulerAngles, curveValue);
 
             if (timeCounter > duration) break;
             yield return null;

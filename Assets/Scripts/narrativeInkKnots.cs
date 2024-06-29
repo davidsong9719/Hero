@@ -31,14 +31,16 @@ public class narrativeInkKnots : MonoBehaviour
         public string title;
         public string text;
         public List<Choice> choices;
-        public exitFunction buttonFunction;
+        public buttonFunction buttonFunction;
+        public string nextCard;
 
-        public textInfo(string textString, List<Choice> choiceList, string titleText, exitFunction cardbuttonFunction)
+        public textInfo(string textString, List<Choice> choiceList, string titleText, buttonFunction cardbuttonFunction, string nextKnot)
         {
             title = titleText;
             text = textString;
             choices = choiceList;
             buttonFunction = cardbuttonFunction;
+            nextCard = nextKnot;
         }
     }
 
@@ -184,26 +186,47 @@ public class narrativeInkKnots : MonoBehaviour
 
         string knotText = cardText.ContinueMaximally();
 
-
         parseTags(cardText.currentTags);
 
-        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], getCurrentExitFunction());
-        
+        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
+        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], currentButtonFunction, nextKnot);
     }
 
-    private exitFunction getCurrentExitFunction()
+    public textInfo drawCard(string nextCard) //for use with next card
+    { 
+        cardText.ChoosePathString(nextCard);
+
+        //throw warning if nextCard can be accessed regularly by pulling from a deck
+        if (allCards.Contains(nextCard)) Debug.LogWarning(nextCard + " can be accessed from both INDEX and the nextCard function, is this intentional?");
+
+        string knotText = cardText.ContinueMaximally();
+
+        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
+        return new textInfo(knotText, cardText.currentChoices, knotTags[currentKnot]["title"], currentButtonFunction, nextKnot);
+
+    }
+
+    private buttonFunction getCurrentButtonFunction(out string nextCard)
     {
         Dictionary<string, string> currentTags = parseTags(cardText.currentTags);
+        buttonFunction function = buttonFunction.none;
+        nextCard = null;
 
-        if (!currentTags.ContainsKey("exitFunction")) return exitFunction.none;
+        if (!currentTags.ContainsKey("exitFunction")) return function;
 
-        exitFunction function;
-        bool functionGetSuccessful = Enum.TryParse(currentTags["exitFunction"], out function);
-
-        if (!functionGetSuccessful)
+        //
+        if (currentTags["exitFunction"] == "none")
         {
-            Debug.LogError("End Function could not be found for the " + currentKnot + " knot");
+            function = buttonFunction.none;
+        } else if (currentTags["exitFunction"] == "store")
+        {
+            function = buttonFunction.store;
+        } else if (currentTags["exitFunction"].Split(".")[0] == "nextCard")
+        {
+            nextCard = currentTags["exitFunction"].Split(".")[1];
+            function = buttonFunction.nextCard;
         }
+
         return function;
     }
 
@@ -248,7 +271,9 @@ public class narrativeInkKnots : MonoBehaviour
 
         string choiceText = cardText.ContinueMaximally();
 
-        return new textInfo(choiceText, null, null, getCurrentExitFunction());
+        buttonFunction currentButtonFunction = getCurrentButtonFunction(out string nextKnot);
+
+        return new textInfo(choiceText, null, null, currentButtonFunction, nextKnot);
     }
 
     public void storeCard()
