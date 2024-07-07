@@ -230,7 +230,7 @@ public class narrativeInkKnots : MonoBehaviour
             currentButtonFunction = buttonFunction.enterCombat;
         } else
         {
-            getCurrentButtonFunction(out nextKnot);
+            currentButtonFunction = getCurrentButtonFunction(out nextKnot);
         }
         
         
@@ -278,9 +278,9 @@ public class narrativeInkKnots : MonoBehaviour
         } else if (currentTags["exitFunction"] == "store")
         {
             function = buttonFunction.store;
-        } else if (currentTags["exitFunction"].Split(">>>")[0] == "nextCard")
+        } else if (currentTags["exitFunction"].Split("/")[0] == "nextCard")
         {
-            nextCard = currentTags["exitFunction"].Split(">>>")[1];
+            nextCard = currentTags["exitFunction"].Split("/")[1];
             function = buttonFunction.nextCard;
         }
 

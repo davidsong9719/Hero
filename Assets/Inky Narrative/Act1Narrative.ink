@@ -339,10 +339,12 @@ You startle awake when you feel something tap you. You’ve dozed off mid battle
 \+1 health 
 ~affectHealth(1)
     
-(BREAK)fight:Random/Random
+//(BREAK)fight:Random/Random
+
 
 You, proud and victorious, walk off prepared to face anything...
 \+ego
+#exitFunction:nextCard/AncientWeapon
 ->END
 
 ===RockSurprise===
