@@ -303,6 +303,7 @@ public class narrativeInkKnots : MonoBehaviour
         return availableCards;
 
     }
+
     private List<string> getDeckCards(deckTags deckTag)
     {
         switch (deckTag)
@@ -332,6 +333,7 @@ public class narrativeInkKnots : MonoBehaviour
     public void storeCard()
     {
         completedCards.Add(currentKnot);
+        deck3D.refreshDeckSizes();
     }
 
     public int getAvailableCardAmount(deckTags deckTag)

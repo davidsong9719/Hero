@@ -15,14 +15,15 @@ public class narrativeCardController : MonoBehaviour
     [SerializeField] Transform cardDisplayPosition, cardStorePosition, cardBackdropPosition;
     private Coroutine currentAnimation;
     [SerializeField] AnimationCurve storeCurve, drawCurve, backdropCurve;
+
     private List<Transform> backdroppedCards = new List<Transform>();
-    private Transform currentDeck;
+    [HideInInspector] public deck3D currentDeck { get; private set; }
     //===
     private static narrativeCardController instance;
     //===
     private cardInfo currentCardInfo;
     private Transform currentCard;
-    private narrativeInkKnots.textInfo currentTextInfo;
+    private textInfo currentTextInfo;
     private TextMeshProUGUI titleText, topText, bottomText;
     private List<cardChoice> cardChoices = new List<cardChoice>();
     private cardButton cardButtonComponent;
@@ -48,9 +49,11 @@ public class narrativeCardController : MonoBehaviour
             instance = this;
         }
     }
-    public void deckInteracted(deckTags deckTag, Transform deckTransform) //sets card text and starts layout & animation
+    public void deckInteracted(deckTags deckTag, deck3D deckComponent) //sets card text and starts layout & animation
     {
-        currentDeck = deckTransform;
+        currentDeck = deckComponent;
+
+        Transform deckTransform = deckComponent.transform;
         textInfo textInfo = narrativeInkKnots.getInstance().drawCard(deckTag);
 
         currentTextInfo = textInfo;
@@ -110,7 +113,7 @@ public class narrativeCardController : MonoBehaviour
         setCardVisuals(textInfo);
 
         stopCardAnimation();
-        currentAnimation = StartCoroutine(drawCardAnimation(1f, currentDeck));
+        currentAnimation = StartCoroutine(drawCardAnimation(1f, currentDeck.transform));
     }
 
 
@@ -219,7 +222,7 @@ public class narrativeCardController : MonoBehaviour
 
     public void chooseChoice(Choice choice)
     {
-        narrativeInkKnots.textInfo choiceInfo = narrativeInkKnots.getInstance().chooseChoice(choice);
+        textInfo choiceInfo = narrativeInkKnots.getInstance().chooseChoice(choice);
         disableAllChoices();
 
         currentTextInfo = choiceInfo;

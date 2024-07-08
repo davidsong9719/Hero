@@ -6,25 +6,19 @@ using UnityEngine;
 public class visualSettings : MonoBehaviour
 {
     [Header("Card Settings")]
+    [SerializeField] float cardThicknessReference;
     [SerializeField] Color unhighlightedTextReference;
     [SerializeField] Color highlightedTextReference;
+
+    public static float cardThickness { private set; get; }
     public static Color unhighlightedText { private set; get; }
     public static Color highlightedText { private set; get; }
-    
-
-    [Header("Animation Curves")]
-    [SerializeField] AnimationCurve easeOutCurveReference;
-    [SerializeField] AnimationCurve easeOutCurveVar0Reference;
-    public static AnimationCurve easeOutCurve { private set; get; }
-    public static AnimationCurve easeOutCurveVar0 { private set; get; }
 
     private void Awake()
     {
-        
+        cardThickness = cardThicknessReference;
         unhighlightedText = unhighlightedTextReference;
         highlightedText = highlightedTextReference;
-        easeOutCurve = easeOutCurveReference;
-        easeOutCurveVar0 = easeOutCurveVar0Reference;
     }
 
 
