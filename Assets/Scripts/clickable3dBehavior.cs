@@ -5,19 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class clickable3dBehavior : MonoBehaviour
 {
-    public virtual void onCursorClick()
+    public virtual void onCursorClick(RaycastHit rayInfo)
     {
 
     }
-    public virtual void onCursorEnter()
+    public virtual void onCursorEnter(RaycastHit rayInfo)
     {
 
     }
-    public virtual void onCursorExit()
+    public virtual void onCursorExit(RaycastHit rayInfo)
     {
 
     }
-    public virtual void onCursorHover()
+    public virtual void onCursorHover(RaycastHit rayInfo)
     {
 
     }

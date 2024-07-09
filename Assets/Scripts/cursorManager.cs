@@ -8,6 +8,8 @@ public class cursorManager : MonoBehaviour
     //===
     private clickable3dBehavior lastFrameCursorOver;
     private clickable3dBehavior currentCursorOver;
+    private RaycastHit lastFrameHit;
+    private RaycastHit currentHit;
 
     // Update is called once per frame
     void Update()
@@ -18,27 +20,30 @@ public class cursorManager : MonoBehaviour
     private void LateUpdate()
     {
         lastFrameCursorOver = currentCursorOver;
+        lastFrameHit = currentHit;
     }
 
     private void checkCursorPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitData;
         bool hasHit = false;
 
-        hasHit = Physics.Raycast(ray, out hitData);
+        hasHit = Physics.Raycast(ray, out RaycastHit hitData);
 
         if (!hasHit)
         {
             currentCursorOver = null;
+            currentHit = new RaycastHit();
         }
         else if (hitData.collider.GetComponent<clickable3dBehavior>() == null)
         {
             currentCursorOver = null;
+            currentHit = new RaycastHit();
         }
         else
         {
             currentCursorOver = hitData.collider.GetComponent<clickable3dBehavior>();
+            currentHit = hitData;
         }
 
         if (currentCursorOver == lastFrameCursorOver) //CURSOR HOVER
@@ -61,24 +66,24 @@ public class cursorManager : MonoBehaviour
     private void cursorEnter()
     {
         if (currentCursorOver == null) return;
-        currentCursorOver.onCursorEnter();
+        currentCursorOver.onCursorEnter(currentHit);
     }
 
     private void cursorExit()
     {
         if (lastFrameCursorOver == null) return;
-        lastFrameCursorOver.onCursorExit();
+        lastFrameCursorOver.onCursorExit(lastFrameHit);
     }
 
     private void cursorHover()
     {
         if (currentCursorOver == null) return;
-        currentCursorOver.onCursorHover();
+        currentCursorOver.onCursorHover(currentHit);
     }
 
     private void cursorClick()
     {
         if (currentCursorOver == null) return;
-        currentCursorOver.onCursorClick();
+        currentCursorOver.onCursorClick(currentHit);
     }
 }

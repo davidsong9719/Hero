@@ -19,7 +19,7 @@ public class deck3D : clickable3dBehavior
         allDecks.Remove(this);
     }
 
-    public override void onCursorClick()
+    public override void onCursorClick(RaycastHit rayInfo)
     {
         if (!mapManager.getInstance().isMapInteractable) return;
         if (narrativeInkKnots.getInstance().getAvailableCardAmount(deckTag) == 0) return;
