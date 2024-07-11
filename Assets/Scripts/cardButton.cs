@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class cardButton : clickable2dBehavior
 {
     public enum buttonFunction
     {
@@ -32,17 +32,17 @@ public class cardButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         buttonImage.color = Color.white;
     }
 
-    public void OnPointerEnter(PointerEventData pointerEventData)
+    public override void OnPointerEnter(PointerEventData pointerEventData)
     {
         buttonImage.color = visualSettings.highlightedText;
     }
 
-    public void OnPointerExit(PointerEventData pointerEventData)
+    public override void OnPointerExit(PointerEventData pointerEventData)
     {
         buttonImage.color = Color.white;
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public override void OnPointerClick(PointerEventData pointerEventData)
     {
         narrativeCardController.getInstance().buttonInteracted(currentButtonFunction);
     }

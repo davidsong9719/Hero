@@ -26,9 +26,9 @@ public class cursorManager : MonoBehaviour
     private void checkCursorPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool hasHit = false;
 
-        hasHit = Physics.Raycast(ray, out RaycastHit hitData);
+        //bool hasHit = Physics.Raycast(ray, out RaycastHit hitData, Mathf.Infinity, LayerMask.GetMask("clickable3d"));
+        bool hasHit = Physics.Raycast(ray, out RaycastHit hitData, Mathf.Infinity, LayerMask.GetMask("clickable3d"));
 
         if (!hasHit)
         {

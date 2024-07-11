@@ -9,8 +9,10 @@ public class deck3D : clickable3dBehavior
 
     public narrativeInkKnots.deckTags deckTag;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         allDecks.Add(this);
     }
 
@@ -21,13 +23,15 @@ public class deck3D : clickable3dBehavior
 
     public override void onCursorClick(RaycastHit rayInfo)
     {
+        deckInteracted();
+    }
+
+    private void deckInteracted()
+    {
         if (!mapManager.getInstance().isMapInteractable) return;
         if (narrativeInkKnots.getInstance().getAvailableCardAmount(deckTag) == 0) return;
 
         narrativeCardController.getInstance().deckInteracted(deckTag, this);
-        mapManager.disableMapInteraction();
-
-        //update deck size by -1
     }
 
     public static void refreshDeckSizes()

@@ -8,9 +8,11 @@ using static narrativeInkKnots;
 
 public class narrativeCardController : MonoBehaviour
 {
+    [SerializeField] GameObject cardPrefab;
+
+    [Header("Visuals")] 
     [SerializeField] float textboxDefaultWidth;
     [SerializeField] float basicTextboxSpacing;
-    [SerializeField] GameObject cardPrefab;
     //===
     [SerializeField] Transform cardDisplayPosition, cardStorePosition, cardBackdropPosition;
     private Coroutine currentAnimation;
@@ -32,9 +34,23 @@ public class narrativeCardController : MonoBehaviour
     private List<RectTransform> cardChoiceTransforms = new List<RectTransform>();
     private RectTransform topBottomDivider;
     //===
+    private Dictionary<deckTags, deck3D> exploreDecks = new Dictionary<deckTags, deck3D>();
+    //===
     public static narrativeCardController getInstance()
     {
         return instance;
+    }
+
+    public static void addToExploreDeck(deckTags deckTag, deck3D deckComponent)
+    {
+        if (instance.exploreDecks.ContainsKey(deckTag))
+        {
+            Debug.LogWarning("There are multiple explore decks with the tag " + deckTag.ToString());
+            return;
+        }
+
+        instance.exploreDecks.Add(deckTag, deckComponent);
+        return;
     }
 
     private void Awake()
@@ -49,6 +65,7 @@ public class narrativeCardController : MonoBehaviour
             instance = this;
         }
     }
+
     public void deckInteracted(deckTags deckTag, deck3D deckComponent) //sets card text and starts layout & animation
     {
         currentDeck = deckComponent;
@@ -61,8 +78,42 @@ public class narrativeCardController : MonoBehaviour
 
         setCardVisuals(textInfo);
 
+        mapManager.disableMapInteraction();
+
         stopCardAnimation();
         currentAnimation = StartCoroutine(drawCardAnimation(1f, deckTransform));
+    }
+
+    public void deckInteracted(List<deckTags> deckTags) //overload used for exploration button, chooses which deck to draw from before continuing to default behavior
+    {
+        //remove empty decks from list
+        for (int i = 0; i < deckTags.Count; i++)
+        {
+            if (narrativeInkKnots.getInstance().getAvailableCardAmount(deckTags[i]) == 0)
+            {
+                deckTags.RemoveAt(i);
+                i--;
+            }
+        }
+
+        if (deckTags.Count == 0)
+        {
+            Debug.LogWarning("There are no explore areas in contact currently \n ^Show this message in UI eventually");
+            return;
+        }
+
+        //get random deck
+        deckTags deckTag = deckTags[Random.Range(0, deckTags.Count)];
+
+        deckInteracted(deckTag, getExploreDeck(deckTag));
+    }
+
+    private deck3D getExploreDeck(deckTags deckTag)
+    {
+        if (exploreDecks.ContainsKey(deckTag)) return exploreDecks[deckTag];
+
+        Debug.LogError("There are no explorer decks matching the current area's tag!");
+        return null;
     }
 
     private void setCardVisuals(textInfo textInfo)
@@ -105,7 +156,7 @@ public class narrativeCardController : MonoBehaviour
 
     private void nextCardInteracted()
     {
-        narrativeInkKnots.textInfo textInfo = narrativeInkKnots.getInstance().drawCard(currentTextInfo.nextCard);
+        textInfo textInfo = narrativeInkKnots.getInstance().drawCard(currentTextInfo.nextCard);
         currentTextInfo = textInfo;
 
         spawnNewCard();

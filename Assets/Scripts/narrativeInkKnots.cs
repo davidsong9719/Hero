@@ -1,11 +1,11 @@
 using Ink;
 using Ink.Runtime;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static cardButton;
 using static playerManager;
+using Random = UnityEngine.Random;
 
 public class narrativeInkKnots : MonoBehaviour
 {
