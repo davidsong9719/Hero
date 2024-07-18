@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class deck3D : clickable3dBehavior
+public class deck3D : MonoBehaviour
 {
     static List<deck3D> allDecks = new List<deck3D>();
     [HideInInspector] public int currentDeckSize;
 
     public narrativeInkKnots.deckTags deckTag;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
 
         allDecks.Add(this);
     }
@@ -21,12 +20,7 @@ public class deck3D : clickable3dBehavior
         allDecks.Remove(this);
     }
 
-    public override void onCursorClick(RaycastHit rayInfo)
-    {
-        deckInteracted();
-    }
-
-    private void deckInteracted()
+    public void deckInteracted()
     {
         if (!mapManager.getInstance().isMapInteractable) return;
         if (narrativeInkKnots.getInstance().getAvailableCardAmount(deckTag) == 0) return;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class exploreDeck3D : deck3D
 {
-
     private void Start()
     {
         narrativeCardController.addToExploreDeck(deckTag, this);
