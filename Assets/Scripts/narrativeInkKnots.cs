@@ -15,16 +15,24 @@ public class narrativeInkKnots : MonoBehaviour
     private Story cardText;
 
     private Dictionary<string, Dictionary<string, string>> knotTags = new Dictionary<string, Dictionary<string, string>>();
+
     [Header("Card Decks")]
+    private Dictionary<deckTags, List<string>> deckTagToCardList = new Dictionary<deckTags, List<string>>();
     public List<string> allCards;
-    public List<string> roadCards, marketCards, forestCards;
     public List<string> completedCards;
 
     public enum deckTags
     {
+        any,
+        //explore tags
         road,
-        market,
         forest,
+
+        //landmark tags
+        market,
+        estate,
+        tavern,
+        square,
     }
 
     public enum breakFunctions
@@ -72,13 +80,18 @@ public class narrativeInkKnots : MonoBehaviour
 
         linkExternalFunctions();
         checkForUnincludedKnots();
+        initiateCardLists();
 
         parseKnots();
     }
 
-    private void Start()
+    private void initiateCardLists()
     {
-        
+        foreach (string deckTag in Enum.GetNames(typeof(deckTags)))
+        {
+            List<string> newList = new List<string>();
+            deckTagToCardList.Add(Enum.Parse<deckTags>(deckTag), newList);
+        }
     }
 
     private void linkExternalFunctions()
@@ -88,10 +101,11 @@ public class narrativeInkKnots : MonoBehaviour
         cardText.BindExternalFunction("loseCardChoice", (int amount) => playerManager.getInstance().loseCardChoice(amount));
     }
 
+    /// <summary>
+    /// Parses through every knot in the index and records their location and tags
+    /// </summary>
     private void parseKnots()
     {
-        //Parses through every knot in the index and records their location and tags
-
         cardText.ChoosePathString("INDEX");
 
         while (cardText.canContinue)
@@ -134,8 +148,11 @@ public class narrativeInkKnots : MonoBehaviour
         //the current approach of randomizing the deck will most likely cause a significant backlog of inaccessible cards locked behind prerequisite cards
         //might cause events to start and end in a row near the end of the game
 
-        roadCards = miscFunctions.randomizeList(roadCards);
-        marketCards = miscFunctions.randomizeList(marketCards);
+        List<deckTags> deckTagArray = new List<deckTags>(deckTagToCardList.Keys);
+        foreach (var deckTag in deckTagArray)
+        {
+            deckTagToCardList[deckTag] = miscFunctions.randomizeList(deckTagToCardList[deckTag]);
+        }
     }
 
     private void sortKnotToLocation(string knot, string locations)
@@ -146,34 +163,27 @@ public class narrativeInkKnots : MonoBehaviour
 
         for (int i = 0; i < splitLocations.Length; i++)
         {
-            
-            switch (splitLocations[i])
+            if (!Enum.TryParse(splitLocations[i], true, out deckTags locationTag))
             {
-                case "road":
-                    roadCards.Add(knot);
-                    break;
-
-                case "market":
-                    marketCards.Add(knot);
-                    break;
-
-                case "forest":
-                    forestCards.Add(knot);
-                    break;
-
-                case "any":
-                    roadCards.Add(knot);
-                    marketCards.Add(knot);
-                    forestCards.Add(knot);
-                    break;
-
-                default:
-                    Debug.LogWarning(knot + " most likely has a misspelled location");
-                    break;
+                Debug.LogWarning(knot + " has a misspelled or unknown location");
+                continue;
             }
+
+            if (locationTag == deckTags.any)
+            {
+                deckTagToCardList[deckTags.forest].Add(knot);
+                deckTagToCardList[deckTags.road].Add(knot);
+            }
+
+            deckTagToCardList[locationTag].Add(knot);
         }
     }
 
+    /// <summary>
+    /// Returns a dictionary of tags and values based on inputted list of tags
+    /// </summary>
+    /// <param name="tags"></param>
+    /// <returns></returns>
     private Dictionary <string, string> parseTags(List<string> tags)
     {
         Dictionary<string, string> tagDictionary = new Dictionary<string, string>();
@@ -306,21 +316,7 @@ public class narrativeInkKnots : MonoBehaviour
 
     private List<string> getDeckCards(deckTags deckTag)
     {
-        switch (deckTag)
-        {
-            case deckTags.road:
-                return roadCards;
-
-            case deckTags.market:
-                return marketCards;
-
-            case deckTags.forest:
-                return forestCards;
-
-        }
-
-        Debug.LogError("deckTag does not have a corresponding card list");
-        return null;
+        return deckTagToCardList[deckTag];
     }
 
     public textInfo chooseChoice(Choice choice)

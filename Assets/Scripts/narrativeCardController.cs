@@ -326,7 +326,6 @@ public class narrativeCardController : MonoBehaviour
         Vector3 cardStartRotation = currentCard.eulerAngles;
         float timeCounter = -Time.deltaTime;
 
-
         while(true)
         {
             timeCounter += Time.deltaTime;
@@ -341,6 +340,7 @@ public class narrativeCardController : MonoBehaviour
 
         narrativeInkKnots.getInstance().storeCard();
         mapManager.enableMapInteraction();
+        mapManager.getInstance().progressTime();
         Destroy(currentCard.gameObject);
     }
 
@@ -364,7 +364,6 @@ public class narrativeCardController : MonoBehaviour
         }
 
         narrativeInkKnots.getInstance().storeCard();
-        mapManager.enableMapInteraction();
         Destroy(cardTransform.gameObject);
     }
 

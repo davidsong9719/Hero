@@ -15,6 +15,13 @@ public class miscFunctions : MonoBehaviour
         return newList;
     }
 
+
+    /// <summary>
+    /// Creates a new randomized list from given list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <returns></returns>
     public static List<T> randomizeList<T>(List<T> list)
     {
         List<T> newList = new List<T>();

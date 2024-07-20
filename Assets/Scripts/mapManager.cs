@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class mapManager : MonoBehaviour
 {
+    [SerializeField] int dayLength;
+    [SerializeField] int nightLength;
+    [SerializeField] TextMeshProUGUI debugTimeDisplay;
+    private int currentTime;
 
     public bool isMapInteractable { get; private set; } 
     
@@ -24,6 +29,14 @@ public class mapManager : MonoBehaviour
         enableMapInteraction();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            progressTime();
+        }
+    }
+
     public static void enableMapInteraction()
     {
         instance.isMapInteractable=true;
@@ -34,8 +47,41 @@ public class mapManager : MonoBehaviour
         instance.isMapInteractable = false;
     }
 
+    /// <summary>
+    /// 0 is sunrise (start of day), dayLength variable is sunset (start of night)
+    /// </summary>
+    public static int getCurrentTime()
+    {
+        return instance.currentTime;
+    }
+
+    public bool isDay()
+    {
+        return currentTime < dayLength;
+    }
+
     public static mapManager getInstance()
     {
         return instance;
     }
+
+    public void progressTime()
+    {
+        currentTime++;
+
+        if (currentTime >= dayLength+nightLength)
+        {
+            currentTime = 0;
+        }
+
+        if (currentTime < dayLength)
+        {
+            debugTimeDisplay.text = "Day (" + currentTime.ToString() + ")";
+        } else
+        {
+            debugTimeDisplay.text = "Night (" + currentTime.ToString() + ")";
+        }
+    }
+
+    
 }

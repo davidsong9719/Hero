@@ -25,6 +25,7 @@ public class deck3D : MonoBehaviour
         if (!mapManager.getInstance().isMapInteractable) return;
         if (narrativeInkKnots.getInstance().getAvailableCardAmount(deckTag) == 0) return;
 
+
         narrativeCardController.getInstance().deckInteracted(deckTag, this);
     }
 
@@ -32,7 +33,7 @@ public class deck3D : MonoBehaviour
     {
         for (int i = 0; i < allDecks.Count; i++)
         {
-            allDecks[i].updateDeckSize(narrativeInkKnots.getInstance().getAvailableCardAmount(allDecks[i].deckTag));
+            //allDecks[i].updateDeckSize(narrativeInkKnots.getInstance().getAvailableCardAmount(allDecks[i].deckTag));
         }
     }
 
@@ -45,7 +46,7 @@ public class deck3D : MonoBehaviour
             currentDeckSize--;
         }
 
-        transform.localScale = new Vector3(transform.localScale.x, (1f/52f) * currentDeckSize, transform.localScale.z);
+        transform.localScale = new Vector3(transform.localScale.x, (1f/52f) * currentDeckSize + 1f/52f, transform.localScale.z);
 
     }
 }

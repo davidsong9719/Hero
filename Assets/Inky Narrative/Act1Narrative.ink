@@ -1,5 +1,4 @@
 INCLUDE globalNarrativeToolkit.ink
-->DozedOff
 
 ===INDEX===
 //road
@@ -15,6 +14,7 @@ Sorcerer
 Vampire0
 HiddenMessage0
 TheStranger0
+
 //market
 GoodDeed
 MarketCrowd
@@ -27,19 +27,22 @@ PillagedVillage
 RockSurprise
 DrunkenDispute0
 TheChampionship0
+
 //any
 NiceDay
-Slimed
 Trip
 Ants
 Overslept
 Stargaze
 DozedOff
+
 //forest
 Scared
+Slimed
 AncientWeapon
 Stuck
 Bracelet
+
 //multiple
 Fountain
 Pickpocketed
@@ -78,7 +81,7 @@ You hand back her money, but she accuses you of stealing it. After she finishes 
 ===Slimed===
 #title:Slimed
 #time:day
-#location:any
+#location:forest
 Something slimy drips onto you. You look around to try and find the source… 
 \+gross
 ->END

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class cursorManager : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class cursorManager : MonoBehaviour
         //bool hasHit = Physics.Raycast(ray, out RaycastHit hitData, Mathf.Infinity, LayerMask.GetMask("clickable3d"));
         bool hasHit = Physics.Raycast(ray, out RaycastHit hitData, Mathf.Infinity, LayerMask.GetMask("clickable3d"));
 
-        if (!hasHit)
+        if (!hasHit || EventSystem.current.IsPointerOverGameObject())
         {
             currentCursorOver = null;
             currentHit = new RaycastHit();
