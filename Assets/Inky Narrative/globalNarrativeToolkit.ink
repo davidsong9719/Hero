@@ -1,6 +1,12 @@
+VAR currentAct = 0
+VAR currentTime = "day"
+
 EXTERNAL affectHealth(healthAmount)
 ===function affectHealth(healthAmount)===
 ~return 0
+
+EXTERNAL affectWealth(moneyAmount)
+===function affectWealth(moneyAmount)===
 
 EXTERNAL gainItem(itemName)
 ===function gainItem(itemName)===
@@ -9,6 +15,7 @@ EXTERNAL gainItem(itemName)
 EXTERNAL loseCardChoice(cardAmount)
 ===function loseCardChoice(cardAmount)===
 ~return 0
+
 
 //for cards that are affected by decisions from other knots
 VAR isVampiric = false

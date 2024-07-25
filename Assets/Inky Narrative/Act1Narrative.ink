@@ -1,5 +1,5 @@
 INCLUDE globalNarrativeToolkit.ink
-
+->TavernCelebration
 ===INDEX===
 //road
 TheFork0
@@ -27,6 +27,19 @@ PillagedVillage
 RockSurprise
 DrunkenDispute0
 TheChampionship0
+
+//tavern
+TavernIntro
+TavernRowdy
+TavernDrunk
+TavernOther
+TavernCloakedFigures
+TavernFight
+TavernCelebration
+TavernMeal
+TavernContest
+TavernRecipe
+TavernWindow
 
 //any
 NiceDay
@@ -509,3 +522,161 @@ You skirt around the hole...
 #title:The End of Act I
 Music blares, crowds roar. You seem to have come across a large event. In front of you sits a massive colosseum, it's a wonder how you missed that. You were probably too busy staring at the $1 million reward posted on the flyer for this tournament. This is your way in, the key. "You're here too!" A tall man towers behind you with a cheery smile. Your eye catches on his glowing necklace. You feel as if you recognize the necklace. And him too, but the necklace is more interesting. The small chick that sits on his shoulder chirps in recognition, it almost escaped your notice. Ah well, they must not be important if you forgot. The problem is that he seems to remember you. "We never exchanged names!” Thank the gods. “I'm Artho!” The bird, who has now moved to the top of his head, chirps in anger of being ignored. “-and this is Pip! It's a pleasure to see you again :)" Despite the registration being full, Artho somehow still manages to weasel you in. The man is kind to you, you probably saved him at one point or something. Fighting all these monsters, everything blurs together. He leads you into the colosseum, showing you around, but the only thing on your mind is the reward still echoing in your head. Don't lose your focus, heroes, you still have ways to go.
 ->END
+
+
+===TavernIntro===
+#title:The Tavern
+#location:tavern
+
+{
+    - currentAct == 0:
+    ->prologue
+    - else:
+    ->act1
+
+}
+=prologue
+    It’s been a long day, you need a drink. Or something to entertain you. And the tavern never fails to provide. As you lean back on your chair, beckoning the barmaid to bring you your usual, you let your eyes scan over the rest of the patrons. Your fingers drum mindlessly on the table, halting as your gaze land on two men. There they were. You watch as they bicker over mind numbing topics, such as which pant leg should be worn first. You weren’t aware there was meant to be an order. When one of the men starts to raise his voice, the other defiantly follows. And as their words start getting more slurred, their movements more unsteady, and their voices more aggressive, it doesn’t take long before one tries to throw a punch, missing terribly. The other, in an attempt to dodge the punch that would’ve never hit him anyway, ends up tripping over his own feet. The rest of the tavern grows quiet, attention all focused on the two. You smile as you take a sip of your drink. Seems like the daily entertainment has begun.
+    ->END
+=act1
+    It’s been a long day, you need a drink. Or a distraction. Anything to make you forget for a moment. And the tavern never fails to provide. As you lean back on your chair, beckoning the barmaid to bring you a drink, you let your eyes scan over the rest of the patrons. Your fingers drum mindlessly on the table, halting as your gaze lands on two men. There they were. You watch as they bicker over mind numbing topics, such as which pant leg should be worn first. You weren’t aware there was meant to be an order. When one of the men starts to raise his voice, the other defiantly follows. And as their words start getting more slurred, their movements more unsteady, and their voices more aggressive, it doesn’t take long before one tries to throw a punch, missing terribly. The other, in an attempt to dodge the punch that would’ve never hit him anyway, ends up tripping over his own feet. The rest of the tavern grows quiet, attention all focused on the two. You smile as you take a sip of your drink, worries momentarily forgotten. Seems like the daily entertainment has begun.
+    ->END
+===TavernRowdy===
+#title:The Tavern
+#location:tavern
+The scene is as rowdy as usual; alcohol sloshing onto every surface, and each table louder than the next. Nothing eventful happens, but you make acquaintances with a few travelers.
+->END
+
+===TavernDrunk===
+#title:A Drunk
+#location:tavern
+
+A drunken man stumbles around the room, bumping into each table before being shoved away. You watch from the corner of the tavern with great interest. 
+Eventually, the man gets shoved to your table. He leans across; beer sloshes onto your finely woven shirt. 
+"Hello, hello... and all that. Um... would you care to buy the poor fellow in front of you a drink?" he grins, teeth heavily stained.
++[Buy the drunk another drink]
+You toss him a coin, and the drunk man grasps it tightly, "Oh thank you, thank you, may the gods bless you for the rest of your life!"
+    ~affectWealth(-1)
+    ->END
++[Refuse politely]
+You politely refuse. For a moment, he stares at you with such intensity that you instinctively move your hand onto your weapon. But then just as fast, he smiles and wanders off to another table.
+    ->END
++[Shove him to the next table]
+You gently shove him like all the other patrons did before you. He shows little resistance before stumbling away.
+    ->END
+    
+===TavernOther===
+#title:Local Competition
+#location:tavern
+It's a slow day for the tavern today. Almost half of the tables are empty; and for the first time, the place has a manageable noise level. Surely there wasn't a ceremony today you forgot about, right?
+You inquire about the lack of patrons with the barkeeper. 
+She glares at you before realizing you're serious. "Another tavern's opened on the other side of town, right? Everybody and they mother's been clamoring to get in. Those fools. They don't know just how good they've got it here. Just you watch, they'll all be back in a few days."
+->END
+
+===TavernCloakedFigures===
+#title:The Tavern
+#location:tavern
+You sit down near a window and gaze out at the silhouettes of the other buildings. You can't help but overhear the two cloaked figures behind you. 
+"Have you told Colson about it yet?"
+"Nah, I've been holding off... y'know how he is about justice and all that." 
+"Ha...Just don't forget to remind him how important this is for us. I mean, we'll never have to do this again.  And we definitely won't have to stay in this dirty shack of a town no more!"
+The two laugh. There's a brief silence before they begin speaking again, this time too quiet to be heard against the background of the tavern.
+->END
+
+===TavernFight===
+#title:The Tavern
+#location:tavern
+You're calmly enjoying your drink when a stranger is thrown into your table, breaking it into countless different pieces. You look behind you and find the perpetrator: a drunken man barely able to stand on his own. The figure below you groans in pain and grabs at your leg for support.
+Judging by the fact that the drunk man's gaze is solely focused on the patron sprawled out in front of you, it seems that your table was merely collateral damage.
++[Avoid the fight]
+This conflict is none of your concern, you find a seat at another table and watch the two duke it out.
+->END
++[Break up the fight]
+Frustrated that your little moment of peace has been disturbed, you step between the two.
+The man across from you finally acknowledges you. "Step aside nobleman, this got nothing to do with ya," he spits on the ground, "my buddy over there just needs a little lesson."
+You remain still.
+"Well, if you want me to go through ya, then so be it!"
+[Start Combat]
+->END
+
+===TavernCelebration===
+#title:The Tavern
+#location:tavern
+Out of all the times you've been to the tavern, you've never seen the place quite as hectic as now. You overhear from multiple patrons that the barkeeper is selling everything at half price today in order to celebrate getting her hands on some vintage ale.
+You shove through a wall of inebriated townsfolks to ask about it yourself. The barkeeper shows you a bottle of golden liquid proudly, yet cautiously. The design on the container itself is incredibly intricate. If the liquid inside wasn't the cause of all the uproar today, you would've almost thought that the craftsmanship of the bottle was the prize.
+{
+    - currentAct == 0:
+    ->prologue
+    - else:
+    ->act1
+}
+=prologue
+    The barkeeper notices your eyes. "This stuffs the good stuff, been a commodity since the Warner brewery guild fell to ruins during the Rat Wars. Ages of history to it. And I got it for free, off of a bet last night! Tell you what, you ask your folks to lay off the taxes for me this season and I'll give you a little sample. That sound like a deal?"
+    +[Promise that you'll throw in a good word for her]
+    The barkeeper fills a small container with the golden ale and hands it to you. "Good doing business with you."
+    ~gainItem("High Quality Ale")
+    ->END
+    +[Decline the offer]
+    The integrity of the local rule is worth more than liquor. You turn her down and ask for the half priced stuff.
+    ->END
+
+=act1
+    The barkeeper notices your eyes. "This stuffs the good stuff, been a commodity since the Warner brewery guild fell to ruins during the Rat Wars. Ages of history to it. And I got it for free, off of a bet last night!
+    "You know what, as condolences for all the stuff that's happened recently and all that," she clears her through awkwardly. "have a shot on the house."
+    The barkeeper fills a small container with the golden ale and hands it to you. "Don't have to drink it now, but hopefully it'll bring you some comfort."
+    ~gainItem("High Quality Ale")
+    ->END
+
+===TavernMeal===
+#title:The Tavern
+#location:tavern
+You decide to eavesdrop on the people around you while you slowly work through your meal. Behind you are a pair of travelers, speaking in an accent you don't quite recognize; and to your left are a group of merchants that you recognize from the marketplace. 
+
+{
+    - currentTime == "day":
+    ->day
+    - currentTime == "night":
+    ->night
+}
+=day
++[Focus on the travelers] 
+You spend most of your meal trying to decipher the two traveler's accents instead of gleaming any useful information. You eventually pick up a mention of a tournament happening somewhere right before the two leave.
+->END
++[Focus on the merchants]
+You try and pay careful attention to anything that could be of use. However, the merchants speak in technical jargon your entire meal, and the only thing you end up understanding is that trade has been bad recently.
+->END
+=night
++[Focus on the travelers] 
+You spend most of the evening trying to decipher the two traveler's accents instead of gleaming any useful information. You eventually pick up a mention of a tournament happening somewhere right before the two leave.
+->END
++[Focus on the merchants]
+You try and pay careful attention to anything that could be of use. However, the merchants speak in technical jargon the entire night, and the only thing you end up understanding is that trade has been bad recently.
+->END
+
+===TavernContest===
+#title:The Tavern
+#location:tavern
+Today is the tavern's monthly drinking contest! The spirits are high both figuratively and literally. The winner gets all their drinks for the night paid for, as well as a bottle of ale to take home! You've partaken a few times, but have never actually gotten past the third mug. For some reason, you feel optimistic about your chances today.
++[Give it a try]
+You decide to give the contest another try.
+You have no recollection of the rest of the night.
+~affectWealth(-5)
+->END
++[Watch from the side]
+You join the large audience forming around the eight brave souls who decided to participate. The contest ends up going much more intense than you expected! And after watching a southerner chug his seventh mug in a row, you're glad that you didn't join in.
+->END
+
+===TavernRecipe===
+#title:The Tavern
+#location:tavern
+Upon entering, you are greeted with the smell of burnt meat and wood.
+It seems that the barkeeper is experimenting with new recipes.
+->END
+
+===TavernWindow===
+#title:The Tavern
+#location:tavern
+You kick shards of glass away as you take the only remaining seat. The broken window behind you snuffs your candle out at every given opportunity, to the point where you feel bad asking the barmaid to relight it.
+The setup doesn't make for a comfortable meal, but it still gets the job done.
+->END
+

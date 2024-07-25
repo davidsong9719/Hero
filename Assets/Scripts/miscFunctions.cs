@@ -35,6 +35,21 @@ public class miscFunctions : MonoBehaviour
 
         return newList;
     }
+
+    public static string createColorTaggedString(Color color, string text)
+    {
+        return createStartingColorTag(color) + text + createEndingColorTag();
+    }
+
+    public static string createStartingColorTag(Color tagColor)
+    {
+        return "<color=#" + ColorUtility.ToHtmlStringRGBA(tagColor) + ">";
+    }
+
+    public static string createEndingColorTag()
+    {
+        return "</color>";
+    }
     /*
      * Singleton Template
      * 

@@ -76,9 +76,11 @@ public class mapManager : MonoBehaviour
 
         if (currentTime < dayLength)
         {
+            narrativeInkKnots.getInstance().setInkStoryTime("day");
             debugTimeDisplay.text = "Day (" + currentTime.ToString() + ")";
         } else
         {
+            narrativeInkKnots.getInstance().setInkStoryTime("night");
             debugTimeDisplay.text = "Night (" + currentTime.ToString() + ")";
         }
     }

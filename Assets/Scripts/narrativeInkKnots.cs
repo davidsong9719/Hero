@@ -97,6 +97,7 @@ public class narrativeInkKnots : MonoBehaviour
     private void linkExternalFunctions()
     {
         cardText.BindExternalFunction("affectHealth", (int amount) => playerManager.getInstance().influenceHealth(amount));
+        cardText.BindExternalFunction("affectWealth", (int amount) => playerManager.getInstance().influenceWealth(amount));
         cardText.BindExternalFunction("gainItem", (string itemName) => playerManager.getInstance().gainItem(itemName));
         cardText.BindExternalFunction("loseCardChoice", (int amount) => playerManager.getInstance().loseCardChoice(amount));
     }
@@ -135,6 +136,7 @@ public class narrativeInkKnots : MonoBehaviour
 
         foreach(string knot in cardText.mainContentContainer.namedOnlyContent.Keys)
         {
+            
             if (!indexKnots.Contains(knot))
             {
                 if (knot == "INDEX") continue;
@@ -335,6 +337,11 @@ public class narrativeInkKnots : MonoBehaviour
     public int getAvailableCardAmount(deckTags deckTag)
     {
         return getAvailableCards(deckTag).Count;
+    }
+
+    public void setInkStoryTime(string time)
+    {
+        cardText.variablesState["currentTime"] = time;
     }
     
 }

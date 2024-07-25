@@ -2,19 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class combatManager : MonoBehaviour
+public class combatVisualManager : MonoBehaviour
 {
-	private static combatManager instance;
-    public int bonusPlayerDefend { private set; get; }
-    public int bonusPlayerAttack { private set; get; }
-
-
-    public enum enemyTags
-    {
-        Random,
-        Skeleton,
-        Goblin
-    }
+    private static combatVisualManager instance;
 
     private void Awake()
     {
@@ -29,15 +19,12 @@ public class combatManager : MonoBehaviour
         }
     }
 
-    public static combatManager getInstance()
+    public static combatVisualManager getInstance()
     {
         return instance;
     }
 
-	public void setNextEnemyInfo(string enemyInfo)
-    {
-        print(enemyInfo);
-    }
-        
-
+    public GameObject attackCardPrefab;
+    public GameObject defendCardPrefab;
+    public GameObject effectCardPrefab;
 }
