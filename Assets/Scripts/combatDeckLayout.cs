@@ -54,7 +54,7 @@ public class combatDeckLayout : MonoBehaviour
         {
             case displayInfo.playerDeck:
             case displayInfo.exchangeDeck:
-                cardList = playerManager.getInstance().getPlayerDeck();
+                cardList = playerManager.getInstance().playerInfo.getDeck();
                 break;
 
             case displayInfo.drawPile:
